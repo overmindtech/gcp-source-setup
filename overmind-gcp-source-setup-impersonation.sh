@@ -44,6 +44,9 @@ if [[ -z "${GCP_IMPERSONATION_SA}" ]]; then
     exit 1
 fi
 
+# Grant the necessary permissions to the Overmind Service Account to access the resources in the project
+source "$(dirname "$0")/overmind-gcp-source-setup.sh" "${GCP_PROJECT_ID}" "${GCP_OVERMIND_SA}"
+
 echo "Impersonation Service Account: ${GCP_IMPERSONATION_SA}"
 
 # Grant the necessary permissions to the Impersonation Service Account to impersonate the Overmind Service Account
@@ -52,9 +55,6 @@ gcloud iam service-accounts add-iam-policy-binding \
     --project "${GCP_PROJECT_ID}" \
     --member="serviceAccount:${GCP_OVERMIND_SA}" \
     --role="roles/iam.serviceAccountTokenCreator"
-
-# Grant the necessary permissions to the Overmind Service Account to access the resources in the project
-source "$(dirname "$0")/overmind-gcp-source-setup.sh" "${GCP_PROJECT_ID}" "${GCP_OVERMIND_SA}"
 
 # Save the variables to a local file for other scripts to use. This needs to be done after the source setup script is run to ensure the target file is not overwritten.
 echo "export GCP_IMPERSONATION_SA=\"${GCP_IMPERSONATION_SA}\"" >> ./.gcp-source-setup-env
