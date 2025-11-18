@@ -34,10 +34,6 @@ if [[ -z "${GCP_OVERMIND_SA}" ]]; then
     exit 1
 fi
 
-# Export the variables to the environment so they can be used in subsequent commands
-export GCP_PROJECT_ID
-export GCP_OVERMIND_SA
-
 # Save the variables to a local file for other scripts to use
 echo "export GCP_PROJECT_ID=\"${GCP_PROJECT_ID}\"" > ./.gcp-source-setup-env
 echo "export GCP_OVERMIND_SA=\"${GCP_OVERMIND_SA}\"" >> ./.gcp-source-setup-env
@@ -135,10 +131,6 @@ echo "----------------------------------------"
 echo "✓ All IAM policy bindings completed successfully!"
 echo "✓ Added ${SUCCESS_COUNT}/${TOTAL_ROLES} roles to service account: ${GCP_OVERMIND_SA}"
 echo "✓ Project: ${GCP_PROJECT_ID}"
-echo ""
-echo "The following environment variables have been set for this terminal session:"
-echo "  GCP_PROJECT_ID=${GCP_PROJECT_ID}"
-echo "  GCP_OVERMIND_SA=${GCP_OVERMIND_SA}"
 echo ""
 echo "These variables have also been saved to ./.gcp-source-setup-env for other scripts to use."
 echo "You can use these variables in subsequent commands."
